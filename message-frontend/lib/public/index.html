@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html ng-app="mtpfrontend">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Front end dashboard</title>
+
+    <!--jQuery-->
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+
+    <!--AngularJS-->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+    <!--Socket.io-->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/Chart.js"></script>
+
+    <!--Message frontend-->
+    <script src="js/controllers/dashboard-controller.js"></script>
+
+</head>
+<body ng-controller="DashboardController">
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Front end dashboard</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <!--Login form-->
+        <div ng-hide="token">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input ng-model="username" type="text" class="form-control" id="username" placeholder="Username">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input ng-model="password" type="password" class="form-control" id="password" placeholder="">
+                </div>
+                <button type="submit" ng-click="login(username, password)" class="btn btn-primary">Login</button>
+            </form>
+            {{loginMessage}}
+        </div>
+
+        <!--Data-->
+        <div ng-show="token">
+            <div>
+                <h2>{{message}}</h2>
+            </div>
+            <div>
+                <canvas id="currencyChart" width="400" height="400"></canvas>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

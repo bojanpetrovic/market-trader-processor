@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <!--Rest monitor-->
+    <bean id="restMonitor" class="lab.mp.observer.RESTMessageObserver">
+        <property name="url" value="https://localhost:8080/messages/info" />
+        <property name="token" value="1" />
+    </bean>
+
+    <!--Console monitor-->
+    <bean id="consoleMonitor" class="lab.mp.observer.ConsoleMessageObserver" />
+
+    <!--Observers-->
+    <util:list id="observers" value-type="lab.mp.observer.MessageObserver">
+        <ref bean="restMonitor" />
+        <ref bean="consoleMonitor" />
+    </util:list>
+
+    <!--REST client template-->
+    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+        <constructor-arg>
+            <bean class="org.springframework.http.client.HttpComponentsClientHttpRequestFactory">
+                <constructor-arg>
+                    <bean class="lab.mp.observer.TrustSelfSignedCertHttpClientFactory"/>
+                </constructor-arg>
+            </bean>
+        </constructor-arg>
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
+                <bean class="org.springframework.http.converter.StringHttpMessageConverter" />
+            </list>
+        </property>
+    </bean>
+
+</beans>

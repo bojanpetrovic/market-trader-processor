@@ -1,0 +1,40 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.2.RELEASE")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+
+jar {
+    baseName = 'message-processor'
+    version =  '0.0.1'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-data-mongodb")
+    compile("org.springframework:spring-web")
+    compile("com.fasterxml.jackson.core:jackson-databind")
+    compile("org.apache.httpcomponents:httpclient:4.4")
+
+
+    compile("ch.qos.logback:logback-classic")
+
+    testCompile("junit:junit")
+    testCompile("org.powermock:powermock-module-junit4:1.6.2")
+    testCompile("org.powermock:powermock-api-mockito:1.6.2")
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.3'
+}
